@@ -77,6 +77,8 @@ namespace constants {
     export const two: number = 2;
     export const three: number = 3;
     export const four: number = 4;
+    export const five: number = 5;
+    export const six: number = 6;
     export const sixteen: number = 16;
     export const twentyFour: number = 24;
     export const fourtyEight: number = 48;
@@ -94,6 +96,7 @@ namespace constants {
     export const boolFalse: boolean = false;
     export const isSpaceBar: RegExp = /^\ +$/;
     export const strictCompare: { strict: boolean } = { strict: boolTrue };
+    export const buttonSpacing: number = 14;
 }
 
 function allwaysTruePredicate(): boolean {
@@ -415,7 +418,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         const styleHeight: number = minHeight ? minHeight : (height ? height : (maxHeight ? maxHeight : constants.zero));
         const textFieldHeight: number = styleHeight > constants.zero ? styleHeight : Keyboard.calculatedTextFieldHeight(inputTextFieldProps);
         let transformTop: number = desktopKeylineIncrement!;
-        let dialogWidth: number = (maxKeyboardRowLength * keyWidth) + dialogGutter;
+        let dialogWidth: number = (maxKeyboardRowLength * keyWidth) + (constants.buttonSpacing * maxKeyboardRowLength) + dialogGutter;
         let dialogHeight: number = (keyboardRowLength * keyHeight) + textFieldHeight + dialogGutter;
         const maxDialogHeight: number = innerHeight - constants.sixteen;
         const dialogSpacingTop: number = maxDialogHeight - dialogHeight;
@@ -485,11 +488,14 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
                     contentStyle={contentStyle}
                     style={this.props.style}
                     className={`${this.props.className}__dialog`}
+                    bodyStyle={{
+                        padding: '10px'
+                    }}
                 >
                         <div
                             className={`${this.props.className}__keyboardWrapper`}
                             style={{
-                                textAlign: 'center'
+                                textAlign: 'center',
                             }}
                         >
                             {keyboardTextField}

@@ -1,6 +1,6 @@
 {
   "name": "react-material-touch-keyboard",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Virtual keyboard for TextFeild when needed.",
   "main": "index.js",
   "typings": "index.d.ts",

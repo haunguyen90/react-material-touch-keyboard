@@ -1,7 +1,8 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import bind from 'bind-decorator';
-import FlatButton from 'material-ui/FlatButton';
+// import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import Backspace from 'material-ui/svg-icons/content/backspace';
 import Enter from 'material-ui/svg-icons/hardware/keyboard-return';
 import Escape from 'material-ui/svg-icons/action/exit-to-app';
@@ -20,6 +21,7 @@ export interface KeyboardKeyProps {
     keyboardKeyHeight: number;
     keyboardKeySymbolSize: number;
     disableEffects: boolean;
+    primary?: boolean;
 }
 
 export interface KeyboardKeyContext {
@@ -58,6 +60,10 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps> {
         keyboardKeyWidth: PropTypes.number.isRequired,
         keyboardKeyHeight: PropTypes.number.isRequired,
         keyboardKeySymbolSize: PropTypes.number.isRequired,
+        primary: PropTypes.bool
+    };
+    public static defaultProps : any = {
+        primary: false
     };
     public static contextTypes: any = { muiTheme: PropTypes.object.isRequired };
 
@@ -98,22 +104,22 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps> {
     }
 
     public render(): JSX.Element {
-        const { keyboardKey: key, keyboardKeyHeight: height, keyboardKeyWidth: width, keyboardKeySymbolSize: size, disableEffects } = this.props;
+        const { keyboardKey: key, keyboardKeyHeight: height, keyboardKeyWidth: width, keyboardKeySymbolSize: size, disableEffects, primary } = this.props;
         let flatButtonProps: any = {
             style: {
                 height: height,
                 width: width,
-                minWidth: width
+                minWidth: width,
             },
-            primary: constants.boolTrue,
+            primary: primary,
             onTouchTap: this.onTouchTap,
             disableFocusRipple: disableEffects,
             disableKeyboardFocus: disableEffects,
             disableTouchRipple: disableEffects
         };
-        if(disableEffects) {
-            flatButtonProps.hoverColor = this.context.muiTheme.flatButton!.color;
-        }
+        // if(disableEffects) {
+        //     flatButtonProps.hoverColor = this.context.muiTheme.flatButton!.color;
+        // }
         if((key.length <= constants.one) && (key !== constants.spacebar)) {
             if(key.length) {
                 flatButtonProps.label = key;
@@ -128,7 +134,7 @@ export class KeyboardKey extends React.Component<KeyboardKeyProps> {
             flatButtonProps.icon = React.createElement(icon, { style: { width: size, height: size } });
         }
         flatButtonProps.className = `keyboard-key`;
-        return React.createElement(FlatButton,  flatButtonProps);
+        return React.createElement(RaisedButton,  flatButtonProps);
     }
 };
 
