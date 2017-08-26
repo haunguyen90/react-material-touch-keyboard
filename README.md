@@ -41,6 +41,9 @@ $ npm install react-material-touch-keyboard
 | onInputValueChange    | *function*     |                                              | Fired when keyboard's input chages value **Signature:** `function(input: string) => void`. |
 | correctorName         | *string*       |                                              | Name of the cloned textField prop to which to bind corrector. |
 | corrector**           | *function*     |                                              | Function which is bound to the the cloned textField at correctorName prop. this is bound to the Keyboard, public method makeCorrection can be used to apply a correction to the keyboard input. |                                                 
+| className             | *string*       | ''                                           | Add class for Dialog. |
+| style                 | *object*       | {}                                           | Override the inline-styles of the root element.   |
+| contentStyle          | *object*       | {}                                           | Overrides the inline-styles of the content container. |
 
 Props marked with \* are required.
 
