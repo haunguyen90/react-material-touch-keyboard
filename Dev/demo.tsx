@@ -38,6 +38,10 @@ export default class Demo extends React.Component<{}, DemoState> {
         setTimeout(() => this.setState({ value: '123456' }), 1000);
     }
 
+    public requestClose(): void{
+      console.log('herererer');
+    }
+
     public render(): JSX.Element {
         const { state, _onInput, _onInputChange } = this;
         const { value } = state;
@@ -62,6 +66,7 @@ export default class Demo extends React.Component<{}, DemoState> {
                         keyboardKeyWidth={45}
                         layouts={[extendedKeyboard]}
                         disableEffects
+                        onRequestClose={this.requestClose}
                      />
                 </div>
         );

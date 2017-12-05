@@ -21,7 +21,7 @@ export type InputHandler = (input: string) => void;
 export interface TextFieldRequiredProps {
     style?: React.CSSProperties;
     readOnly: boolean;
-    value: string; 
+    value: string;
     onFocus?: React.FocusEventHandler<string>;
 }
 
@@ -55,6 +55,7 @@ export interface KeyboardProps {
     className?: string;
     contentStyle?: object;
     style?: object;
+    overlayStyle?: object;
 }
 
 export interface KeyboardState {
@@ -145,12 +146,14 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         disableEffects: PropTypes.bool,
         className: PropTypes.string,
         contentStyle: PropTypes.object,
-        style: PropTypes.object
+        style: PropTypes.object,
+        overlayStyle: PropTypes.object,
     };
     public static defaultProps: any = {
         className: '',
         contentStyle: {},
-        style: {}
+        style: {},
+        overlayStyle: {}
     };
     public static contextTypes: any = { muiTheme: PropTypes.object };
     public static automaitcOpenPredicate: AutomaitcOpenPredicate = allwaysTruePredicate;
@@ -162,7 +165,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         if(typeof this.props.onInputValueChange === constants.typeofFunction) {
             this.props.onInputValueChange!(this.state.value!);
         }
-    } 
+    }
 
     private setValue(value: string): void {
         if(this.state.value !== value) {
@@ -364,7 +367,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
         let inputTextFieldProps: TextFieldAccessedProps = objectAssign({}, textField.props, { readOnly: open });
         if(automatic || open) {
             inputTextFieldProps.onFocus = automatic ? this.onFocus : undefined;
-        } 
+        }
         keyboardFieldProps.style = objectAssign({}, styles);
         keyboardFieldProps.style.minWidth = constants.fullWidth;
         keyboardFieldProps.style.width = constants.fullWidth;
@@ -473,8 +476,17 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
                     />
                 );
             }
-            keyboardRows.push(<div key={rowIndex}>{keyboardRowKeys}</div>);
+            // const rowStyle = {
+            //     // display: 'flex',
+            //     // justifyContent: "space-between"
+            // };
+            keyboardRows.push(<div style={{
+                display: "flex",
+                justifyContent: "space-around",
+                marginBottom: "20px"
+            }} key={rowIndex}>{keyboardRowKeys}</div>);
         }
+
         const keyboard: JSX.Element = (
             <div
                 style={styles}
@@ -483,13 +495,14 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
                 {inputTextField}
                 <Dialog
                     open={open}
-                    modal
+                    onRequestClose={this.props.onRequestClose}
                     autoDetectWindowHeight={constants.boolFalse}
                     contentStyle={contentStyle}
+                    overlayStyle={this.props.overlayStyle}
                     style={this.props.style}
                     className={`${this.props.className}__dialog`}
                     bodyStyle={{
-                        padding: '10px'
+                        padding: '10px',
                     }}
                 >
                         <div
@@ -498,6 +511,11 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
                                 textAlign: 'center',
                             }}
                         >
+                            <div
+                              className={`${this.props.className}__keyboardCloseBtn`}
+                            >
+                              Close
+                            </div>
                             {keyboardTextField}
                             {keyboardRows}
                         </div>
@@ -505,7 +523,7 @@ export class Keyboard extends React.Component<KeyboardProps, KeyboardState> {
             </div>
         );
         return muiTheme ? keyboard : <MuiThemeProvider>{keyboard}</MuiThemeProvider>;
-    } 
+    }
 };
 
 export default Keyboard;
